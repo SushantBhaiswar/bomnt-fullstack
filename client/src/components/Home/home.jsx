@@ -21,8 +21,8 @@ export default function Home() {
     //get all books data
     const GetData = async () => {
 
-        await axios.get("https://bookmanagment-fullstack.vercel.app/books")
-            // await axios.get("http://localhost:3001/books")
+        // await axios.get("https://bookmanagment-fullstack.vercel.app/books")
+            await axios.get("http://localhost:3001/books")
             .then((res) => {
                 if (res.status === 200) {
                     setData(res.data)
@@ -139,8 +139,8 @@ export default function Home() {
                                                         <Button variant="btn btn-dark mx-1"
                                                             onClick={() => {
 
-                                                axios.put(`https://bookmanagment-fullstack.vercel.app/deletebook/${_id}`)
-                                                                    // axios.put(`http://localhost:3001/deletebook/${_id}`)
+                                                // axios.put(`https://bookmanagment-fullstack.vercel.app/deletebook/${_id}`)
+                                                                    axios.put(`http://localhost:3001/deletebook/${_id}`)
                                                                     .then((res) => {
                                                                         if (res.status === 200) {
                                                                             toast.success("Data deleted Successfully !")

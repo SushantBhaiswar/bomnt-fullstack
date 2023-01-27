@@ -27,8 +27,8 @@ export default function Reviewbook() {
             val.authorname = location.state.curElem.authorname
             val.bookId = location.state.curElem._id
 
-            axios.post("https://bookmanagment-fullstack.vercel.app/createreview", val)
-            // axios.post("http://localhost:3001/createreview", val)
+            // axios.post("https://bookmanagment-fullstack.vercel.app/createreview", val)
+            axios.post("http://localhost:3001/createreview", val)
                 .then((res) => {
                     if (res.status === 200)
                         toast.success("Review added successfully!")
@@ -37,8 +37,8 @@ export default function Reviewbook() {
         }
     }
     const Getreviewdata = () => {
-        axios.get(`https://bookmanagment-fullstack.vercel.app/getreview/${location.state.curElem._id}`)
-        // axios.get(`http://localhost:3001/getreview/${location.state.curElem._id}`)
+        // axios.get(`https://bookmanagment-fullstack.vercel.app/getreview/${location.state.curElem._id}`)
+        axios.get(`http://localhost:3001/getreview/${location.state.curElem._id}`)
             .then((res) => {
                   console.log(res.data);
                 if (res.status === 201)
@@ -128,8 +128,8 @@ export default function Reviewbook() {
                             <p style={{ color: "black" }}>{data.review}</p>
                             <div className="review-button">
                                 <button onClick={() => {
-                                    axios.put(`https://bookmanagment-fullstack.vercel.app/delete-review/${data._id}`)
-                                    // axios.put(`http://localhost:3001/delete-review/${data._id}`)
+                                    // axios.put(`https://bookmanagment-fullstack.vercel.app/delete-review/${data._id}`)
+                                    axios.put(`http://localhost:3001/delete-review/${data._id}`)
                                         .then((res) => {
                                             if (res.status === 201) {
                                                 window.location.reload()

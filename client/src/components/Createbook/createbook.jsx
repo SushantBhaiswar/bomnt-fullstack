@@ -32,8 +32,8 @@ export default function Createbook() {
         console.log(location.state.heading);
         if (location.state.heading === "Update Book") {
             // console.log(input);
-            axios.put(`http://bookmanagment-fullstack.vercel.app/books/${location.state._id}`, obj)
-            // axios.put(`http://localhost:3001/books/${location.state._id}`, obj)
+            // axios.put(`http://bookmanagment-fullstack.vercel.app/books/${location.state._id}`, obj)
+            axios.put(`http://localhost:3001/books/${location.state._id}`, obj)
                 .then((res) => {
                     if (res.status === 200)
                         setTimeout(() => {
@@ -78,8 +78,8 @@ export default function Createbook() {
                     position: "top-right"
                 })
             } else {
-                axios.post("https://bookmanagment-fullstack.vercel.app/books", input)
-                // axios.post("http://localhost:3001/books", input)
+                // axios.post("https://bookmanagment-fullstack.vercel.app/books", input)
+                axios.post("http://localhost:3001/books", input)
                     .then((res) => {
                         if (res.status === 201)
                             setTimeout(() => {

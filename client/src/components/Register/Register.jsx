@@ -88,8 +88,8 @@ export default function Register() {
         
         else if (heading.state.heading === "User") {
           
-            await axios.post("https://bookmanagment-fullstack.vercel.app/register", input)
-            // await axios.post("http://localhost:3001/register", input)
+            // await axios.post("https://bookmanagment-fullstack.vercel.app/register", input)
+            await axios.post("http://localhost:3001/register", input)
                 .then((res) => {
                     if (res.status === 201) {
                         toast.success("User Registred Successfully !")
@@ -103,8 +103,8 @@ export default function Register() {
         }
         else if (heading.state.heading === "Author") {
             
-            await axios.post("https://bookmanagment-fullstack.vercel.app/Author-register", input)
-            // await axios.post("http://localhost:3001/Author-register", input)
+            // await axios.post("https://bookmanagment-fullstack.vercel.app/Author-register", input)
+            await axios.post("http://localhost:3001/Author-register", input)
                 .then((res) => {
                     console.log(res);
                     if (res.status === 201) {
