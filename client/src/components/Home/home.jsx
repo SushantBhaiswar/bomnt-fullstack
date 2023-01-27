@@ -14,14 +14,19 @@ export default function Home() {
     const location = useLocation()
     const [modalShow, setModalShow] = React.useState(false);
     const [catagory, setCatagory] = React.useState("")
+
+    const Authorid = localStorage.getItem("Authorid")
     const AuthorToken = localStorage.getItem("AuthorToken")
     const UserToken = localStorage.getItem("UserToken")
     //get all books data
     const GetData = async () => {
-        await axios.get("http://localhost:3001/books")
+
+        await axios.get("https://bookmanagment-fullstack.vercel.app/books")
+            // await axios.get("http://localhost:3001/books")
             .then((res) => {
                 if (res.status === 200) {
                     setData(res.data)
+                    console.log(data)
                 }
             })
     }
@@ -93,15 +98,14 @@ export default function Home() {
                 </div>
 
                 <div className="row mt-4" >
-                  
                     {
 
                         data.filter((el) => {
                             return (catagory !== "" || location.state !== null ? el.category === catagory
                                 || el.title === location.state : el)
                         }).map((curElem) => {
-                            const { title, _id, link } = curElem;
 
+                            const { title, _id, link, userId } = curElem;
                             return (
                                 <div className="col-md-3" key={_id}  >
                                     <div className="box"  >
@@ -126,33 +130,46 @@ export default function Home() {
                                         <div className='home-button'>
                                             <div className="container d-flex justify-content-between my-3">
 
-                                                {AuthorToken ?
+                                                {AuthorToken && Authorid === userId ?
                                                     <>
                                                         <button type="button" className="btn btn-dark mx-1" onClick={() => {
                                                             redirect("/createbook", { state: { heading: "Update Book", _id } })
                                                         }}  >
                                                             Update</button>
                                                         <Button variant="btn btn-dark mx-1"
-                                                            onClick={() => setModalShow(!modalShow)}>
+                                                            onClick={() => {
+
+                                                axios.put(`https://bookmanagment-fullstack.vercel.app/deletebook/${_id}`)
+                                                                    // axios.put(`http://localhost:3001/deletebook/${_id}`)
+                                                                    .then((res) => {
+                                                                        if (res.status === 200) {
+                                                                            toast.success("Data deleted Successfully !")
+                                                                            window.location.reload()
+                                                                        }
+                                                                    })
+
+                                                            }}>
                                                             Delete
                                                         </Button>
                                                     </> : null
                                                 }
-                                                {modalShow && <Model
+                                                {/* {modalShow && <Model
                                                     show={modalShow}
                                                     onHide={async () => {
                                                         setModalShow(false)
                                                     }}
-                                                    Flose={async () => {
-                                                        await axios.put(`http://localhost:3001/deletebook/${_id}`)
-                                                            .then((res) => {
-                                                                if (res.status === 200) {
-                                                                    toast.success("Data deleted Successfully !")
-                                                                }
-                                                            })
-                                                        setModalShow(false)
-                                                    }}
-                                                />}
+                                                    flose={
+                                                        async () => {
+                                                            console.log(_id);
+                                                            await axios.put(`http://localhost:3001/deletebook/${_id}`)
+                                                                .then((res) => {
+                                                                    if (res.status === 200) {
+                                                                        toast.success("Data deleted Successfully !")
+                                                                    }
+                                                                })
+                                                            setModalShow(false)
+                                                        }}
+                                                />} */}
                                             </div>
                                         </div>
                                     </div>

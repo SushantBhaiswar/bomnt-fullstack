@@ -23,7 +23,7 @@ export default function Model(props) {
                 </p>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={props.Flose}>Yes</Button>
+                <Button onClick={props.flose}>Yes</Button>
             </Modal.Footer>
         </Modal>
     );

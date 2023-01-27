@@ -13,7 +13,7 @@ export default function Login() {
         email: "",
         password: ""
     })
-    // console.log(inp);
+    // console.log(heading.state.heading);
     const changeinp = (e) => {
         let { name, value } = e.target
         setInp({ ...inp, [name]: value })
@@ -32,28 +32,57 @@ export default function Login() {
             });
         }
         else {
-
-            await axios.post("http://localhost:3001/login", inp)
-                .then((res) => {
-                    
-                    if (res.status === 200) {
-                        setTimeout(() => {
-                            toast.success("Login successfull !", {
-                                position: "top-right"
-                            });
-                        }, 300)
-                        redirect("/")
-                        // setTimeout(() => {
+            if (heading.state.heading === "User") {
+                await axios.post("https://bookmanagment-fullstack.vercel.app/user-login", inp)
+                // await axios.post("http://localhost:3001/user-login", inp)
+                    .then((res) => {
+                   console.log(res.data);
+                        if (res.status === 200) {
+                            setTimeout(() => {
+                                toast.success("User Login successfull !", {
+                                    position: "top-right"
+                                });
+                            }, 300)
+                            redirect("/")
+                            // setTimeout(() => {
                             window.location.reload();
-                        // },0)
-                        localStorage.setItem(res.data.Message === "User LoggedIn" ? "UserToken" : "AuthorToken", res.data.data)
-                    }
-                })
-                .catch((err) => {
-                    toast.error(err.response.data.message, {
-                        position: "top-right"
+                            // },0)
+                            localStorage.setItem("UserToken", res.data.data)
+                            localStorage.setItem("Userid", res.data.userId)
+                        }
                     })
-                })
+                    .catch((err) => {
+                        toast.error(err.response.data.message, {
+                            position: "top-right"
+                        })
+                    })
+            }
+            else if (heading.state.heading === "Author") {
+
+                await axios.post("https://bookmanagment-fullstack.vercel.app/author-login", inp)
+                // await axios.post("http://localhost:3001/author-login", inp)
+                    .then((res) => {
+
+                        if (res.status === 200) {
+                            setTimeout(() => {
+                                toast.success("Author Login successfull !", {
+                                    position: "top-right"
+                                });
+                            }, 300)
+                            redirect("/")
+                            // setTimeout(() => {
+                            window.location.reload();
+                            // },0)
+                            localStorage.setItem("AuthorToken", res.data.data)
+                            localStorage.setItem("Authorid", res.data.Userid)
+                        }
+                    })
+                    .catch((err) => {
+                        toast.error(err.response.data.message, {
+                            position: "top-right"
+                        })
+                    })
+            }
         }
     }
 

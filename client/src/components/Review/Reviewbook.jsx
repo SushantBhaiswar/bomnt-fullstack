@@ -19,9 +19,7 @@ export default function Reviewbook() {
     }
     const history = useNavigate();
     const submitReview = () => {
-
         if (UserToken == null) {
-            console.log("called");
             history("/login", { state: { heading: "User" } });
             // push({ pathname: "/login" })
         }
@@ -29,18 +27,20 @@ export default function Reviewbook() {
             val.authorname = location.state.curElem.authorname
             val.bookId = location.state.curElem._id
 
-            axios.post("http://localhost:3001/createreview", val)
+            axios.post("https://bookmanagment-fullstack.vercel.app/createreview", val)
+            // axios.post("http://localhost:3001/createreview", val)
                 .then((res) => {
                     if (res.status === 200)
                         toast.success("Review added successfully!")
+                    window.location.reload()
                 })
         }
     }
     const Getreviewdata = () => {
-
-        axios.get(`http://localhost:3001/getreview/${location.state.curElem._id}`)
+        axios.get(`https://bookmanagment-fullstack.vercel.app/getreview/${location.state.curElem._id}`)
+        // axios.get(`http://localhost:3001/getreview/${location.state.curElem._id}`)
             .then((res) => {
-
+                  console.log(res.data);
                 if (res.status === 201)
                     Setreviewdata(res.data)
             }).catch((err) => {
@@ -55,7 +55,7 @@ export default function Reviewbook() {
         <>
             <div style={{ display: "flex", marginLeft: "20px" }} >
                 <div className="leftbox">
-                    <img src={location.state.curElem.link} alt="" />
+                    <img style={{ height: "280px", width: "210px" }} src={location.state.curElem.link} alt="" />
                 </div>
                 <div className='mid-box' >
                     <h1 style={{ fontFamily: "initial", marginTop: "-30px" }}  >{location.state.curElem.title}</h1>
@@ -90,18 +90,19 @@ export default function Reviewbook() {
             </div>
             <h3 style={{ marginTop: "25px" }}>  Products related to this item </h3>
             <div className="display-book" key={location.state.data._id} >
-                {location.state.data.map((data,index) => {
+                {location.state.data.map((data, index) => {
                     return (
                         <div key={index} >
                             <div className="show-book">
-                                <img src={data.link} alt="" onClick={() => {
-                                    console.log("aaaaaaa");
+                                <img style={{ height: "200px", width: "150px" }} src={data.link} alt="" onClick={() => {
+
                                     history("/reviewbook", {
                                         state: {
                                             curElem: data,
                                             data: location.state.data
                                         }
                                     })
+                                    window.location.reload()
                                 }} />
                             </div>
                             <p className='book-name'>{data.title}</p>
@@ -122,11 +123,27 @@ export default function Reviewbook() {
             <div className="reviewbox" >
                 {
                     reviewdata.map((data) => {
-                        // console.log(data);
                         return (<div className="reviewitem" key={data._id}>
                             <h5 style={{ color: "black" }}>{data.reviewedBy}</h5>
                             <p style={{ color: "black" }}>{data.review}</p>
+                            <div className="review-button">
+                                <button onClick={() => {
+                                    axios.put(`https://bookmanagment-fullstack.vercel.app/delete-review/${data._id}`)
+                                    // axios.put(`http://localhost:3001/delete-review/${data._id}`)
+                                        .then((res) => {
+                                            if (res.status === 201) {
+                                                window.location.reload()
+                                                setTimeout(() => {
+                                                    toast.success("Review Deleted successfully!")
+                                                }, 1000)
 
+                                            }
+                                        }).catch((err) => {
+                                            console.log(err);
+                                        })
+                                }}>Delete</button>
+                                <button >Update</button>
+                            </div>
                         </div>)
                     })
                 }

@@ -24,21 +24,21 @@ module.exports = {
 
     login: async (req, res) => {
         try {
-            console.log(req.body);
+           
             let data = req.body
             let { email, password } = data
 
             let findUser = await userModel.findOne({ email: email, password: password });
+            
             if (!findUser) return res.status(404).send({ status: false, message: "emailId or password is incorrect" })
 
             let token = jwt.sign({
                 userId: findUser._id
             },
                 "secret-Hai-ye-batan-mat", { expiresIn: "1s" })
-            let decode = jwt.verify(token, "secret-Hai-ye-batan-mat")
 
             res.setHeader("header", token)
-            res.status(200).send({ Message: "User LoggedIn", data: token, userId: decode.userId, iat: decode.iat, exp: decode.exp })
+            res.status(200).send({ Message: "User LoggedIn", data: token, userId: findUser._id})
         } catch (err) {
             return res.status(500).send({ status: false, message: err.message })
         }

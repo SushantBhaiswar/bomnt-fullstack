@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Createbook() {
+    let token = localStorage.getItem("UserToken")
     const location = useLocation()
     const redirect = useNavigate()
     const [input, setInput] = useState({
@@ -30,9 +31,9 @@ export default function Createbook() {
         }
         console.log(location.state.heading);
         if (location.state.heading === "Update Book") {
-            console.log(input);
-            //Update Book
-            axios.put(`http://localhost:3001/books/${location.state._id}`, obj)
+            // console.log(input);
+            axios.put(`https://bookmanagment-fullstack.vercel.app/books/${location.state._id}`, obj)
+            // axios.put(`http://localhost:3001/books/${location.state._id}`, obj)
                 .then((res) => {
                     if (res.status === 200)
                         setTimeout(() => {
@@ -77,13 +78,14 @@ export default function Createbook() {
                     position: "top-right"
                 })
             } else {
-                axios.post("http://localhost:3001/books", input)
+                axios.post("https://bookmanagment-fullstack.vercel.app/books", input)
+                // axios.post("http://localhost:3001/books", input)
                     .then((res) => {
                         if (res.status === 201)
                             setTimeout(() => {
                                 toast.success("Book created Successfully !")
                             }, 500)
-                        redirect("/home")
+                        redirect("/")
 
                     })
                     .catch((err) => {
@@ -96,13 +98,14 @@ export default function Createbook() {
 
 
     }
+    console.log(location.state);
     return (
-        <>
+        <div style={{ backgroundColor: "black" }}>
             <section>
                 <div className="form_data">
                     <h1>{location.state ? location.state.heading : "Register Your Book"}</h1>
                     <form action="">
-
+                        
                         <div className="form_input">
                             <label htmlFor="name">AUTHOR NAME
                             </label>
@@ -145,6 +148,6 @@ export default function Createbook() {
                 </div>
             </section>
             <ToastContainer position='top-right' />
-        </>
+        </div>
     )
 }

@@ -1,12 +1,12 @@
 const bookModel = require("../models/bookModel")
 const userModel = require("../models/userModel")
 const reviewModel = require("../models/reviewModel")
+const AuthorModel = require("../models/AuthorModel")
 
 
 const createBook = async (req, res) => {
     try {
-
-        let userid = await userModel.findOne({ name: req.body.authorname })
+        let userid = await AuthorModel.findOne({ name: req.body.authorname })
 
         let uniqueisbn = await bookModel.findOne({ ISBN: req.body.ISBN })
         if (uniqueisbn) return res.status(400).send({ status: false, message: "ISBN is already present" })
@@ -15,6 +15,7 @@ const createBook = async (req, res) => {
 
         req.body.releasedAt = new Date().toDateString()
         let saveData = await bookModel.create(req.body)
+       
         return res.status(201).send({ status: true, message: "data created successfully", data: saveData })
 
     } catch (err) {

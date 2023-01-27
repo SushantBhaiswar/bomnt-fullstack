@@ -9,6 +9,10 @@ module.exports = {
     },
     getreview: async (req, res) => {
         let getreview = await reviewModel.find({ isDeleted: false, bookId: req.params.bookid })
-        res.status(201).send( getreview )
+        res.status(201).send(getreview)
+    },
+    deleteReview: async (req, res) => {
+        await reviewModel.findByIdAndUpdate(req.params.id, { isDeleted: true }, { new: true })
+        return res.status(201).send({ message: "Review Deleted Successfully" })
     }
 }

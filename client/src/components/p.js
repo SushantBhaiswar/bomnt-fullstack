@@ -218,7 +218,7 @@
 // console.log(arr);
 
 
-var longestOnes = function (nums, k) {
+// var longestOnes = function (nums, k) {
 
     // let maxlength = 0
     // let start = 0
@@ -237,22 +237,55 @@ var longestOnes = function (nums, k) {
     // }
 
     // return maxlength
-    let map = new Map();
-    let maxLength = 0;
-    let left = 0;
-    for (let right = 0; right < nums.length; right++) {
-        let element = nums[right];
-        map.set(element, (map.get(element) || 0) + 1);
+//     let map = new Map();
+//     let maxLength = 0;
+//     let left = 0;
+//     for (let right = 0; right < nums.length; right++) {
+//         let element = nums[right];
+//         map.set(element, (map.get(element) || 0) + 1);
 
-        //condition check
-        while (map.get(0) > k && left <= right) {
-            map.set(nums[left], map.get(nums[left]) - 1);
-            left++;
+//         //condition check
+//         while (map.get(0) > k && left <= right) {
+//             map.set(nums[left], map.get(nums[left]) - 1);
+//             left++;
+//         }
+
+//         maxLength = Math.max(maxLength, right - left + 1);
+//     }
+
+//     return maxLength;
+// };
+// console.log(longestOnes(nums = [1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0], k = 2));
+
+let root = [3, 9, 20, null, null, 15, 7]
+var levelOrder = function (root) {
+
+    if (root == null)
+        return [];
+
+    let q = []; //create a queue
+    let answer = [];
+    q.push(root);
+    while (q.length != 0) {
+
+        let levelNodesList = [];
+        let nodesAtCurrLevel = q.length;
+
+        for (let i = nodesAtCurrLevel; i > 0; i--) {
+            let currNode = q.shift(); //pop from queue from front end
+            levelNodesList.push(currNode.val);
+
+
+            if (currNode.left != null)
+                q.push(currNode.left);
+
+            if (currNode.right != null)
+                q.push(currNode.right);
         }
 
-        maxLength = Math.max(maxLength, right - left + 1);
+        answer.push(levelNodesList);
     }
+    return answer;
+}
 
-    return maxLength;
-};
-console.log(longestOnes(nums = [1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0], k = 2));
+console.log(levelOrder(root))

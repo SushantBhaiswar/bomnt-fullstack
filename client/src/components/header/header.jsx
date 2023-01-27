@@ -7,7 +7,7 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import "./header.css"
-import {  useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function NavScrollExample() {
@@ -28,12 +28,14 @@ function NavScrollExample() {
     const logout = () => {
         if (AuthorToken)
             localStorage.removeItem("AuthorToken")
+            localStorage.removeItem("Authorid")
         if (UserToken)
             localStorage.removeItem("UserToken")
-        setTimeout( redirect("/"), 0)
+            localStorage.removeItem("Userid")
+        setTimeout(redirect("/"), 0)
         window.location.reload()
     }
-   
+
     const Search = () => {
         redirect("/", { state: searchval })
     }
@@ -41,7 +43,7 @@ function NavScrollExample() {
 
         <Navbar className='head'>
             <Container fluid>
-                <Navbar.Brand href="#">BOMNT</Navbar.Brand>
+                <Navbar.Brand href="/">BOMNT</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                     {AuthorToken ?
@@ -58,9 +60,14 @@ function NavScrollExample() {
                         </Nav> : null
                     }
                 </Navbar.Collapse>
+
                 <Button onClick={() => {
-                    redirect("/register", { state: { heading: "Author" } })
-                }} className="me-3">Author Register</Button>
+                    redirect("/register", { state: { heading: AuthorToken ? "Author" : "User" } })
+                }} className="me-3">{AuthorToken ? "Author" : "User"} Register</Button>
+                <Button onClick={() => {
+                    redirect("/login", { state: { heading: AuthorToken ? "Author" : "User" } })
+                }} className="me-3">{AuthorToken ? "Author" : "User"} Login</Button>
+
                 <Form className="search" onChange={(e) => {
                     setSearchval(e.target.value)
                 }} value={searchval} >
