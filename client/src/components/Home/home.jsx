@@ -21,7 +21,7 @@ export default function Home() {
     //get all books data
     const GetData = async () => {
 
-        await axios.get("https://bookmanagment-fullstack-cbsd30sx5-sushantbhaiswar.vercel.app/books")
+        await axios.get("https://bookmanagment-fullstack.vercel.app/books")
             // await axios.get("http://localhost:3001/books")
             .then((res) => {
                 if (res.status === 200) {
