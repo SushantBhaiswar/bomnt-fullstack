@@ -24,6 +24,7 @@ export default function Home() {
     const GetData = async () => {
 
         await axios.get(`${SERVER_URI}/books`)
+        // console.log( SERVER_URI );
             // await axios.get("http://localhost:3001/books")
             .then((res) => {
                 if (res.status === 200) {
