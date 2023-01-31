@@ -1,3 +1,3 @@
 module.exports = {
-    SERVER_URI: "https://bookmanagment-fullstack.vercel.app"
+    SERVER_URI: "https://bookmanagment-fullstack-1.vercel.app"
 }

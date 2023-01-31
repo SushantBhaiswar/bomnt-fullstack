@@ -18,26 +18,26 @@ app.use('/', route)
 
 app.use(express.static(path.join(__dirname, "./client/build")));
 
-app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "./client/build/index.html"));
-});
+// app.get("*", function (req, res) {
+//     res.sendFile(path.join(__dirname, "./client/build/index.html"));
+// });
 //vercel 
 
-// if (process.env.NODE_ENV == 'production') {
-//     const path = require('path')
-//     app.use(express.static(path.join(__dirname, "../client/build")));
+if (process.env.NODE_ENV == 'production') {
+    const path = require('path')
+    app.use(express.static(path.join(__dirname, "../client/build")));
 
-//     app.get("*", function (_, res) {
-//         res.sendFile(
-//             path.join(__dirname, "../client/build/index.html"),
-//             function (err) {
-//                 if (err) {
-//                     res.status(500).send(err)
-//                 }
-//             }
-//         )
-//     })
-// }
+    app.get("*", function (_, res) {
+        res.sendFile(
+            path.join(__dirname, "../client/build/index.html"),
+            function (err) {
+                if (err) {
+                    res.status(500).send(err)
+                }
+            }
+        )
+    })
+}
 
 app.listen(process.env.PORT || 3001, function () {
     console.log('Express app running on port ' + 3001)
