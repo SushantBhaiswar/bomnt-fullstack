@@ -3,7 +3,7 @@ const route = require('./routes/route');
 const mongoose = require('mongoose');
 const app = express();
 const cors = require("cors")
-const path = require("path");
+// const path = require("path");
 app.use(express.json());
 require("dotenv").config()
 
@@ -16,7 +16,7 @@ mongoose.connect("mongodb+srv://Sushant_Bhaiswar_30:WBYUu1bCYmxmZUmg@cluster0.ju
 app.use(cors())
 app.use('/', route)
 
-app.use(express.static(path.join(__dirname, "./client/build")));
+// app.use(express.static(path.join(__dirname, "./client/build")));
 
 // app.get("*", function (req, res) {
 //     res.sendFile(path.join(__dirname, "./client/build/index.html"));
