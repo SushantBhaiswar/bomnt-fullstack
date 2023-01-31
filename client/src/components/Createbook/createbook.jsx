@@ -3,6 +3,7 @@ import { toast, ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
+import {SERVER_URI} from "../config/keys"
 
 export default function Createbook() {
     let token = localStorage.getItem("UserToken")
@@ -32,8 +33,8 @@ export default function Createbook() {
         console.log(location.state.heading);
         if (location.state.heading === "Update Book") {
             // console.log(input);
-            // axios.put(`http://bookmanagment-fullstack.vercel.app/books/${location.state._id}`, obj)
-            axios.put(`http://localhost:3001/books/${location.state._id}`, obj)
+            axios.put(`${SERVER_URI}/books/${location.state._id}`, obj)
+            // axios.put(`http://localhost:3001/books/${location.state._id}`, obj)
                 .then((res) => {
                     if (res.status === 200)
                         setTimeout(() => {
@@ -78,8 +79,8 @@ export default function Createbook() {
                     position: "top-right"
                 })
             } else {
-                // axios.post("https://bookmanagment-fullstack.vercel.app/books", input)
-                axios.post("http://localhost:3001/books", input)
+                axios.post(`${SERVER_URI}/books`, input)
+                // axios.post("http://localhost:3001/books", input)
                     .then((res) => {
                         if (res.status === 201)
                             setTimeout(() => {

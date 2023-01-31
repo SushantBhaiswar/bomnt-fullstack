@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { redirect, useLocation, useNavigate } from 'react-router-dom'
 import "../Review/Reviewbook.css"
 import { toast, ToastContainer } from 'react-toastify';
+import { SERVER_URI } from "../config/keys"
 
 export default function Reviewbook() {
 
@@ -27,8 +28,8 @@ export default function Reviewbook() {
             val.authorname = location.state.curElem.authorname
             val.bookId = location.state.curElem._id
 
-            // axios.post("https://bookmanagment-fullstack.vercel.app/createreview", val)
-            axios.post("http://localhost:3001/createreview", val)
+            axios.post(`${SERVER_URI}/createreview`, val)
+            // axios.post("http://localhost:3001/createreview", val)
                 .then((res) => {
                     if (res.status === 200)
                         toast.success("Review added successfully!")
@@ -37,8 +38,8 @@ export default function Reviewbook() {
         }
     }
     const Getreviewdata = () => {
-        // axios.get(`https://bookmanagment-fullstack.vercel.app/getreview/${location.state.curElem._id}`)
-        axios.get(`http://localhost:3001/getreview/${location.state.curElem._id}`)
+        axios.get(`${SERVER_URI}/getreview/${location.state.curElem._id}`)
+        // axios.get(`http://localhost:3001/getreview/${location.state.curElem._id}`)
             .then((res) => {
                   console.log(res.data);
                 if (res.status === 201)
@@ -58,22 +59,22 @@ export default function Reviewbook() {
                     <img style={{ height: "280px", width: "210px" }} src={location.state.curElem.link} alt="" />
                 </div>
                 <div className='mid-box' >
-                    <h1 style={{ fontFamily: "initial", marginTop: "-30px" }}  >{location.state.curElem.title}</h1>
-                    <div className="book">
-                        <div className="fitem">By</div>
-                        <div className="fitem" style={{ color: "blue" }}>{location.state.curElem.authorname}</div>
-                        <div className="fitem"> Released At</div>
-                        <div className="fitem" style={{ color: "blue" }}> {location.state.curElem.releasedAt}</div>
-                        <div className="fitem"> Cateory</div>
-                        <div className="fitem" style={{ color: "blue" }}> {location.state.curElem.category}</div>
-                    </div>
+                    <h1 style={{ fontFamily: "initial", marginLeft: "130px" }}  >{location.state.curElem.title}</h1>
+                    {/* <div className="book"> */}
+                        <span className="fitem">By</span>
+                        <span className="fitem" style={{ color: "blue" }}>{location.state.curElem.authorname}</span>
+                        <span className="fitem"> Released At</span>
+                        <span className="fitem" style={{ color: "blue" }}> {location.state.curElem.releasedAt}</span>
+                        <span className="fitem"> Cateory</span>
+                        <span className="fitem" style={{ color: "blue" }}> {location.state.curElem.category}</span>
+                    {/* </div> */}
                     <div className="book1">
                         <div className="bitem">{location.state.curElem.excerpt}</div>
                     </div>
-                    <div className="book2">
-                        <div className="bitem">{location.state.curElem.reviews}</div>
-                        <div className="bitem">ratings</div>
-                    </div>
+                    {/* <div className="book2"> */}
+                        <span className="bitem">ratings</span>
+                        <span className="bitem">{location.state.curElem.reviews}</span>
+                    {/* </div> */}
                 </div>
                 {/* <div className="right-box">
                     Sushant
@@ -128,8 +129,8 @@ export default function Reviewbook() {
                             <p style={{ color: "black" }}>{data.review}</p>
                             <div className="review-button">
                                 <button onClick={() => {
-                                    // axios.put(`https://bookmanagment-fullstack.vercel.app/delete-review/${data._id}`)
-                                    axios.put(`http://localhost:3001/delete-review/${data._id}`)
+                                    axios.put(`${SERVER_URI}/delete-review/${data._id}`)
+                                    // axios.put(`http://localhost:3001/delete-review/${data._id}`)
                                         .then((res) => {
                                             if (res.status === 201) {
                                                 window.location.reload()

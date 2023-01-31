@@ -257,35 +257,38 @@
 // };
 // console.log(longestOnes(nums = [1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0], k = 2));
 
-let root = [3, 9, 20, null, null, 15, 7]
-var levelOrder = function (root) {
+// let root = [3, 9, 20, null, null, 15, 7]
+// var levelOrder = function (root) {
 
-    if (root == null)
-        return [];
+//     if (root == null)
+//         return [];
 
-    let q = []; //create a queue
-    let answer = [];
-    q.push(root);
-    while (q.length != 0) {
+//     let q = []; //create a queue
+//     let answer = [];
+//     q.push(root);
+//     while (q.length != 0) {
 
-        let levelNodesList = [];
-        let nodesAtCurrLevel = q.length;
+//         let levelNodesList = [];
+//         let nodesAtCurrLevel = q.length;
 
-        for (let i = nodesAtCurrLevel; i > 0; i--) {
-            let currNode = q.shift(); //pop from queue from front end
-            levelNodesList.push(currNode.val);
+//         for (let i = nodesAtCurrLevel; i > 0; i--) {
+//             let currNode = q.shift(); //pop from queue from front end
+//             levelNodesList.push(currNode.val);
 
 
-            if (currNode.left != null)
-                q.push(currNode.left);
+//             if (currNode.left != null)
+//                 q.push(currNode.left);
 
-            if (currNode.right != null)
-                q.push(currNode.right);
-        }
+//             if (currNode.right != null)
+//                 q.push(currNode.right);
+//         }
 
-        answer.push(levelNodesList);
-    }
-    return answer;
-}
+//         answer.push(levelNodesList);
+//     }
+//     return answer;
+// }
 
-console.log(levelOrder(root))
+// console.log(levelOrder(root))
+"use strict";
+x = 3.14;     
+console.log(x);

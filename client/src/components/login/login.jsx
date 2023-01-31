@@ -4,6 +4,8 @@ import "../mix.css"
 import axios from 'axios'
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify'
+import { SERVER_URI } from "../config/keys"
+
 
 export default function Login() {
     const heading = useLocation()
@@ -33,8 +35,8 @@ export default function Login() {
         }
         else {
             if (heading.state.heading === "User") {
-                // await axios.post("https://bookmanagment-fullstack.vercel.app/user-login", inp)
-                await axios.post("http://localhost:3001/user-login", inp)
+                await axios.post(`${SERVER_URI}/user-login`, inp)
+                // await axios.post("http://localhost:3001/user-login", inp)
                     .then((res) => {
                    console.log(res.data);
                         if (res.status === 200) {
@@ -59,8 +61,8 @@ export default function Login() {
             }
             else if (heading.state.heading === "Author") {
 
-                // await axios.post("https://bookmanagment-fullstack.vercel.app/author-login", inp)
-                await axios.post("http://localhost:3001/author-login", inp)
+                await axios.post(`${SERVER_URI}/author-login`, inp)
+                // await axios.post("http://localhost:3001/author-login", inp)
                     .then((res) => {
 
                         if (res.status === 200) {
