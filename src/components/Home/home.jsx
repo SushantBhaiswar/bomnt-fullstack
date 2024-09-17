@@ -24,12 +24,11 @@ export default function Home() {
     const GetData = async () => {
 
         await axios.get(`${SERVER_URI}/books`)
-        // console.log( SERVER_URI );
+            // console.log( SERVER_URI );
             // await axios.get("http://localhost:3001/books")
             .then((res) => {
                 if (res.status === 200) {
                     setData(res.data)
-                    console.log(data)
                 }
             })
     }
@@ -101,9 +100,9 @@ export default function Home() {
                 </div>
 
                 <div className="row mt-4" >
+                    {console.log("data", data)}
                     {
-
-                        data.filter((el) => {
+                        data?.filter((el) => {
                             return (catagory !== "" || location.state !== null ? el.category === catagory
                                 || el.title === location.state : el)
                         }).map((curElem) => {

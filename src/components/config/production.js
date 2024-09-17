@@ -1,3 +1,3 @@
 module.exports = {
-    SERVER_URI: "https://16.171.154.189/3001"
+    SERVER_URI: "http://13.51.85.110:3001"
 }
