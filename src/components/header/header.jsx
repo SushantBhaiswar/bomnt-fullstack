@@ -9,12 +9,15 @@ import MenuItem from '@mui/material/MenuItem';
 import "./header.css"
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout } from '../redux/store'
 
 function NavScrollExample() {
+    const { user, isAuthenticated } = useSelector((state) => state)
     const [anchorEl, setAnchorEl] = useState(null);
     const [searchval, setSearchval] = useState("")
     const redirect = useNavigate()
-
+    const dispatch = useDispatch()
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -22,18 +25,15 @@ function NavScrollExample() {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    let AuthorToken = localStorage.getItem("AuthorToken")
-    let UserToken = localStorage.getItem("UserToken")
 
-    const logout = () => {
-        if (AuthorToken)
-            localStorage.removeItem("AuthorToken")
-            localStorage.removeItem("Authorid")
-        if (UserToken)
-            localStorage.removeItem("UserToken")
-            localStorage.removeItem("Userid")
-        setTimeout(redirect("/"), 0)
-        window.location.reload()
+    const handleLogout = () => {
+
+        localStorage.removeItem("token")
+        localStorage.removeItem("user")
+        localStorage.removeItem("isAuthenticated")
+        dispatch(logout())
+        redirect("/")
+
     }
 
     const Search = () => {
@@ -42,11 +42,12 @@ function NavScrollExample() {
     return (
 
         <Navbar className='head'>
-            <Container fluid>
+            {console.log(user?.role?.[0] + user?.role?.slice(1))
+            }            <Container fluid>
                 <Navbar.Brand href="/">BOMNT</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
-                    {AuthorToken ?
+                    {user?.role == 'auther' ?
                         <Nav
                             className="me-auto my-2 my-lg-0"
                             style={{ maxHeight: '90px' }}
@@ -62,11 +63,11 @@ function NavScrollExample() {
                 </Navbar.Collapse>
 
                 <Button onClick={() => {
-                    redirect("/register", { state: { heading: AuthorToken ? "Author" : "User" } })
-                }} className="me-3">{AuthorToken ? "Author" : "User"} Register</Button>
+                    redirect("/register", { state: { heading: user?.role?.[0] + user?.role?.slice(1) } })
+                }} className="me-3">{user.role == 'auther' ? 'User' : 'Auther'} Register</Button>
                 <Button onClick={() => {
-                    redirect("/login", { state: { heading: AuthorToken ? "Author" : "User" } })
-                }} className="me-3">{AuthorToken ? "Author" : "User"} Login</Button>
+                    redirect("/login", { state: { heading: user?.role?.[0] + user?.role?.slice(1) } })
+                }} className="me-3">{user.role == 'auther' ? 'User' : 'Auther'} Login</Button>
 
                 <Form className="search" onChange={(e) => {
                     setSearchval(e.target.value)
@@ -94,7 +95,7 @@ function NavScrollExample() {
                         'aria-labelledby': 'basic-button',
                     }}>
                     <MenuItem onClick={() => {
-                        logout()
+                        handleLogout()
                         handleClose()
                     }} >Logout</MenuItem>
                 </Menu>

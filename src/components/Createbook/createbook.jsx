@@ -3,10 +3,12 @@ import { toast, ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {SERVER_URI} from "../config/keys"
+import { SERVER_URI } from "../config/keys"
+import { useDispatch, useSelector } from 'react-redux';
+let categoryArr = ['Fiction & Literature', 'Personal Growth', 'Biography', 'Technology', 'Business & Career',]
 
 export default function Createbook() {
-    let token = localStorage.getItem("UserToken")
+    const { user, token } = useSelector((state) => state)
     const location = useLocation()
     const redirect = useNavigate()
     const [input, setInput] = useState({
@@ -30,11 +32,10 @@ export default function Createbook() {
             if (input[el] !== "")
                 obj[el] = input[el]
         }
-        console.log(location.state.heading);
         if (location.state.heading === "Update Book") {
             // console.log(input);
             axios.put(`${SERVER_URI}/books/${location.state._id}`, obj)
-            // axios.put(`http://localhost:3001/books/${location.state._id}`, obj)
+                // axios.put(`http://localhost:3001/books/${location.state._id}`, obj)
                 .then((res) => {
                     if (res.status === 200)
                         setTimeout(() => {
@@ -51,12 +52,8 @@ export default function Createbook() {
             //Create Book
             console.log("create book called");
 
-            if (name === "") {
-                toast.error("Author Name is required!", {
-                    position: "top-right"
-                });
-            }
-            else if (title === "") {
+
+            if (title === "") {
                 toast.error("title is required!", {
                     position: "top-right"
                 });
@@ -80,7 +77,7 @@ export default function Createbook() {
                 })
             } else {
                 axios.post(`${SERVER_URI}/books`, input)
-                // axios.post("http://localhost:3001/books", input)
+                    // axios.post("http://localhost:3001/books", input)
                     .then((res) => {
                         if (res.status === 201)
                             setTimeout(() => {
@@ -106,13 +103,14 @@ export default function Createbook() {
                 <div className="form_data">
                     <h1>{location.state ? location.state.heading : "Register Your Book"}</h1>
                     <form action="">
-                        
+
                         <div className="form_input">
                             <label htmlFor="name">AUTHOR NAME
                             </label>
                             <input type="text" name='authorname' placeholder='Enter Your Name '
-                                value={input.authorname}
-                                onChange={changeval} />
+                                value={user.name}
+                                onChange={() => setInput({ ...input, authorname: user.name })} />
+
                         </div>
                         <div className="form_input">
                             <label htmlFor="name">TITLE
@@ -133,11 +131,21 @@ export default function Createbook() {
                                 onChange={changeval} />
                         </div>
                         <div className="form_input">
-                            <label htmlFor="category">CATEGORY
-                            </label>
-                            <input type="text" name='category' placeholder='Enter Category' value={input.category}
-                                onChange={changeval} />
+                            <label htmlFor="category">CATEGORY</label>
+                            <select
+                                name='category'
+                                value={input.category}
+                                onChange={changeval}
+                            >
+                                <option value="" disabled>Select Category</option>
+                                {categoryArr?.map((category, index) => (
+                                    <option key={index} value={category}>
+                                        {category}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
+
                         <div className="form_input">
                             <label htmlFor="subcategory">SUBCATEGORY
                             </label>

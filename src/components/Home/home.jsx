@@ -7,10 +7,13 @@ import Model from "../Model/Model"
 import "./home.css"
 import { toast, ToastContainer } from 'react-toastify';
 import { SERVER_URI } from "../config/keys"
+import { useSelector } from 'react-redux';
+let categoryArr = ['Fiction & Literature', 'Personal Growth', 'Biography', 'Technology', 'Business & Career',]
 
 // import Createbook from '../Createbook/createbook'
 
 export default function Home() {
+    const { user, isAuthenticated } = useSelector((state) => state)
     const [data, setData] = useState([])
     const redirect = useNavigate()
     const location = useLocation()
@@ -39,12 +42,12 @@ export default function Home() {
 
     return (
         <div className='page'>
-            {UserToken === null && AuthorToken === null ?
+            {!isAuthenticated ?
                 <>
                     <h1 style={{ color: "red", fontWeight: "800", marginLeft: "420px", fontSize: "1200" }}>
                         𝓑𝓸𝓸𝓴 𝓜𝓪𝓷𝓪𝓰𝓶𝓮𝓷𝓽</h1></> : null}
             <div className="home-box">
-                {UserToken === null && AuthorToken === null ?
+                {!isAuthenticated ?
                     <>
                         <div className="home-header">
                             <div className="home-header-button">
@@ -66,24 +69,14 @@ export default function Home() {
 
                 <div className='filter-box'>
                     <div className="row1">
-                        <button className='flbox-button1'
-                            value={"Fiction & Literature"} onClick={(e) => { setCatagory(e.target.value) }} >
-                            Fiction & Literature</button>
-                        <button className='flbox-button1'
-                            value={"Biography"} onClick={(e) => { setCatagory(e.target.value) }} >
-                            Biography</button>
-                        <button className='flbox-button1'
-                            value={"Business & Career"} onClick={(e) => { setCatagory(e.target.value) }} >
-                            Business & Career</button>
-                        <button className='flbox-button1'
-                            value={"Technology"} onClick={(e) => { setCatagory(e.target.value) }} >
-                            Technology</button>
-                        <button className='flbox-button1'
-                            value={"Personal Growth"} onClick={(e) => { setCatagory(e.target.value) }} >
-                            Personal Growth</button>
-                        <button className='flbox-button1'
-                            value={"Children & Youth"} onClick={(e) => { setCatagory(e.target.value) }} >
-                            Children & Youth</button>
+                        {
+                        categoryArr?.map((obj) => {
+                            return <button className='flbox-button1'
+                                value={obj} onClick={(e) => { setCatagory(e.target.value) }} >
+                                {obj}</button>
+                        })}
+
+
                     </div>
                     <div className="row2">
                         <button className='flbox-button1'
@@ -132,7 +125,7 @@ export default function Home() {
                                         <div className='home-button'>
                                             <div className="container d-flex justify-content-between my-3">
 
-                                                {AuthorToken && Authorid === userId ?
+                                                {user?.role == 'author' ?
                                                     <>
                                                         <button type="button" className="btn btn-dark mx-1" onClick={() => {
                                                             redirect("/createbook", { state: { heading: "Update Book", _id } })

@@ -5,9 +5,18 @@ import axios from 'axios'
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify'
 import { SERVER_URI } from "../config/keys"
-
+import { useDispatch } from 'react-redux';
+import { login, logout } from '../redux/store';
+import { useSelector } from 'react-redux';
 
 export default function Login() {
+    const { user, isAuthenticated } = useSelector((state) => state)
+    const dispatch = useDispatch()
+    const handleLogin = (data) => {
+        data.user.role = 'auther'
+        if (data.Message == 'User LoggedIn') data.usrole = 'user'
+        dispatch(login(data))
+    }
     const heading = useLocation()
     const redirect = useNavigate()
     const [showpass, setShowpass] = useState(false)
@@ -36,21 +45,17 @@ export default function Login() {
         else {
             if (heading.state.heading === "User") {
                 await axios.post(`${SERVER_URI}/user-login`, inp)
-                // await axios.post("http://localhost:3001/user-login", inp)
+                    // await axios.post("http://localhost:3001/user-login", inp)
                     .then((res) => {
-                   console.log(res.data);
                         if (res.status === 200) {
-                            setTimeout(() => {
-                                toast.success("User Login successfull !", {
-                                    position: "top-right"
-                                });
-                            }, 300)
+                            handleLogin(res.data)
+
+
+                            console.log("s", res.data.user);
+                            localStorage.setItem("token", res.data.data)
+                            localStorage.setItem("isAuthenticated", true)
+                            localStorage.setItem("user", JSON.stringify(res.data.user))
                             redirect("/")
-                            // setTimeout(() => {
-                            window.location.reload();
-                            // },0)
-                            localStorage.setItem("UserToken", res.data.data)
-                            localStorage.setItem("Userid", res.data.userId)
                         }
                     })
                     .catch((err) => {
@@ -62,21 +67,21 @@ export default function Login() {
             else if (heading.state.heading === "Author") {
 
                 await axios.post(`${SERVER_URI}/author-login`, inp)
-                // await axios.post("http://localhost:3001/author-login", inp)
+                    // await axios.post("http://localhost:3001/author-login", inp)
                     .then((res) => {
 
                         if (res.status === 200) {
-                            setTimeout(() => {
-                                toast.success("Author Login successfull !", {
-                                    position: "top-right"
-                                });
-                            }, 300)
+                            handleLogin(res.data)
+
+                            toast.success("Author Login successfull !", {
+                                position: "top-right"
+                            });
+
+
+                            localStorage.setItem("token", res.data.data)
+                            localStorage.setItem("isAuthenticated", true)
+                            localStorage.setItem("user", res.data.user)
                             redirect("/")
-                            // setTimeout(() => {
-                            window.location.reload();
-                            // },0)
-                            localStorage.setItem("AuthorToken", res.data.data)
-                            localStorage.setItem("Authorid", res.data.Userid)
                         }
                     })
                     .catch((err) => {
