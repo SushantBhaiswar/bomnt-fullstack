@@ -1,0 +1,11 @@
+html,
+/* body {
+    height: 100%;
+} */
+
+body {
+    background-color: rgba(45, 44, 44, 0.995);
+    color: white;
+    font-family: 'Arial', sans-serif;
+}
+
