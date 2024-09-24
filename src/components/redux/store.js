@@ -5,7 +5,7 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 const initialState = {
     isAuthenticated: localStorage.getItem('isAuthenticated') || false,
     user: JSON.parse(localStorage.getItem('user')) || null, // 'author', 'user', or null
-    token: localStorage.getItem('token') || null, // 'author', 'user', or null
+    // token: localStorage.getItem('token') || null, // 'author', 'user', or null
 };
 
 // Create a slice for authentication
@@ -16,14 +16,14 @@ const authSlice = createSlice({
         login: (state, action) => {
             state.isAuthenticated = true;
             state.user = action.payload.user
-            state.token = action.payload.token
-            console.log(state)
+            // state.token = action.payload.token
+            console.log("state", state)
         },
 
         logout: (state) => {
             state.isAuthenticated = false;
             state.user = null;
-            state.token = null;
+            // state.token = null;
         },
     },
 });
@@ -33,7 +33,9 @@ export const { login, logout } = authSlice.actions;
 
 // Create and configure the store
 const store = configureStore({
-    reducer: authSlice.reducer,
+    reducer: {
+        auth: authSlice.reducer, 
+    },
 });
 
 export default store;

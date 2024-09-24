@@ -1,8 +1,7 @@
-import Login from './components/login/login';
+import Login from './pages/LoginPage/login';
 import Register from './components/Register/Register';
-import Header from "./components/header/header"
 import Createbook from "./components/Createbook/createbook"
-import Home from './components/Home/home';
+import Home from './pages/HomePage/HomePage';
 import Reviewbook from './components/Review/Reviewbook';
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { useSelector } from 'react-redux';
@@ -12,9 +11,8 @@ function App() {
   const { user, isAuthenticated } = useSelector((state) => state)
   // AuthorToken || UserToken ? window.location.reload() : null 
   return (
-
     <BrowserRouter>
-      {isAuthenticated ? <Header /> : null}
+      {/* {isAuthenticated ? <Header /> : null} */}
       <Routes>
         <Route path='/login' element={<Login />} ></Route>
         <Route path='/reviewbook' element={<Reviewbook />} ></Route>

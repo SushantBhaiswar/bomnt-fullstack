@@ -13,30 +13,33 @@ section {
 }
 
 .home-header {
-    display: flex; 
- 
+    display: flex;
+
 }
 
 .home-header-button {
     margin-left: 125px;
     margin-top: 12px;
     margin-bottom: 12px;
-   
+
 }
+
 .home-header-button button {
-   height: 35px;
-   width: 130px;
-   border-radius: 10px ;
-   margin-left: 15px;
-   background-color: #ef2121;
-   font-weight: bold;
-   color: rgb(0, 0, 0);
-   border-color: #ef2121;
+    height: 35px;
+    width: 130px;
+    border-radius: 10px;
+    margin-left: 15px;
+    background-color: #ef2121;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    border-color: #ef2121;
 }
-.home-header-button button :hover{
+
+.home-header-button button :hover {
     background-color: #fc3232e0;
     color: rgb(41, 40, 40);
 }
+
 section .form_datalogin {
     max-width: 500px;
     margin: 25px auto;
@@ -345,4 +348,11 @@ h2 {
 
 .number3 {
     font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .isSearchopen {
+        display: flex;
+        align-items: center;
+    }
 }

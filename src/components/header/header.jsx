@@ -1,107 +1,91 @@
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import "./header.css"
+import "./Header.css"
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from '../redux/store'
-
-function NavScrollExample() {
-    const { user, isAuthenticated } = useSelector((state) => state)
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [searchval, setSearchval] = useState("")
-    const redirect = useNavigate()
+import Modal from "../Model/logout";
+function Header() {
+    const [isModelOpen, setIsModelOpen] = useState(false)
+    const [isHamburgerOpen, setIsHamburgerOpen] = useState(false)
+    console.log("isHamburgerOpen", isHamburgerOpen)
     const dispatch = useDispatch()
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handleLogout = () => {
-
-        localStorage.removeItem("token")
-        localStorage.removeItem("user")
-        localStorage.removeItem("isAuthenticated")
-        dispatch(logout())
-        redirect("/")
-
+    const navigate = useNavigate()
+    const handleLogoutModel = () => {
+        setIsModelOpen(!isModelOpen)
     }
-
-    const Search = () => {
-        redirect("/", { state: searchval })
+    console.log(`menue-${isHamburgerOpen ? 'open' : ''}`)
+    const handleHamburger = () => {
+        console.log('cliecked')
+        setIsHamburgerOpen(!isHamburgerOpen)
+    }
+    const handleLogout = () => {
+        dispatch(logout())
+        navigate('/login')
     }
     return (
+        <div className='main-header'>
+            <div className="menue-items">
+                <p>My Orders</p>
+                <p>My Appointments</p>
+                <p>My Payments</p>
+                <p>Contact Us</p>
+            </div>
 
-        <Navbar className='head'>
-            {console.log(user?.role?.[0] + user?.role?.slice(1))
-            }            <Container fluid>
-                <Navbar.Brand href="/">BOMNT</Navbar.Brand>
-                <Navbar.Toggle aria-controls="navbarScroll" />
-                <Navbar.Collapse id="navbarScroll">
-                    {user?.role == 'auther' ?
-                        <Nav
-                            className="me-auto my-2 my-lg-0"
-                            style={{ maxHeight: '90px' }}
-                            navbarScroll
-                        >
-                            <Nav.Link onClick={() => {
-                                redirect("/createbook", { state: { title: "", heading: "Register your Book" } })
+            {/* <div className='menue-open'  >
+                <input type="text"
+                    placeholder="Search"
+                />
+                <div className="hamburger" style={{ cursor: 'pointer', marginLeft: '10px' }}>
+                    <a href="javascript:void(0);" onClick={handleHamburger}>
+                        <i class="fa fa-bars"></i>
+                    </a>
 
-                            }} >CREATE BOOK</Nav.Link>
-
-                        </Nav> : null
-                    }
-                </Navbar.Collapse>
-
-                <Button onClick={() => {
-                    redirect("/register", { state: { heading: user?.role?.[0] + user?.role?.slice(1) } })
-                }} className="me-3">{user.role == 'auther' ? 'User' : 'Auther'} Register</Button>
-                <Button onClick={() => {
-                    redirect("/login", { state: { heading: user?.role?.[0] + user?.role?.slice(1) } })
-                }} className="me-3">{user.role == 'auther' ? 'User' : 'Auther'} Login</Button>
-
-                <Form className="search" onChange={(e) => {
-                    setSearchval(e.target.value)
-                }} value={searchval} >
-                    <Form.Control
-                        type="search"
-                        placeholder="Search"
-                        className="me-2"
-                        aria-label="Search"
-                    />
-                </Form>
-                <Button variant="success" onClick={Search}>
-                    search
-                </Button>
-                <div className="avatar">
-                    <Avatar style={{ background: "blue" }} onClick={handleClick} />
                 </div>
-                <Menu
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
+            </div>   */}
 
-                    id="basic-menu"
-                    MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                    }}>
-                    <MenuItem onClick={() => {
-                        handleLogout()
-                        handleClose()
-                    }} >Logout</MenuItem>
-                </Menu>
-            </Container>
-        </Navbar >
+            <div className="searchBox">
+                <input className="inputinput" type="text"
+                    placeholder="Search"
+                // style={{ width: '530px',  padding: '0 10px', height: '40px', 'border-radius': '5px' }}
+                />
+            </div>
+            <div style={{ cursor: 'pointer', marginLeft: '20px' }}>
+                <img
+                    src="/ic_logout.8bcac3ce.png"
+                    alt="Logout"
+                    onClick={handleLogoutModel}
+                    style={{ width: '40px', height: '40px' }}
+                />
+            </div>
+            <div style={{ cursor: 'pointer', marginLeft: '20px' }}>
+                <img
+                    src="profilePlaceholderIcon.3785a8ea.svg"
+                    alt="Profile"
+                    style={{ width: '40px', height: '40px' }}
+                />
+            </div>
+
+            <Modal isOpen={isModelOpen} onClose={handleLogoutModel} message="Are you sure you want to logout?"
+                title="Confirm Logout">
+
+                <button onClick={handleLogout} className="btn-primary">Yes, Logout</button>
+                <button onClick={handleLogoutModel} className="btn-secondary">Cancel</button>
+            </Modal>
+        </div >
+
+
     )
 }
+export default Header
 
-export default NavScrollExample;
+{/* <div className='menue-open'  > */ }
+//    <input type="text"
+//    placeholder="Search"
+// />
+// <div className="hamburger" style={{ cursor: 'pointer', marginLeft: '10px' }}>
+//    <a href="javascript:void(0);" onClick={handleHamburger}>
+//        <i class="fa fa-bars"></i>
+//    </a>
+
+// </div>
+{/* </div> */ }
